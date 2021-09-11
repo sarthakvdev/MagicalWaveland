@@ -1,18 +1,22 @@
 async function main() {
+    const [owner, randomPerson] = await hre.ethers.getSigners();
     const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
     const waveContract = await waveContractFactory.deploy();
 
     // waiting for a transaction to be mined, hardhat imitated it
     await waveContract.deployed();
 
-    // run the wave function
-    await waveContract.wave();
-    await waveContract.wave();
-    await waveContract.wave();
-    await waveContract.wave();
-    await waveContract.wave();
+    // adresses of deployer and owner
+    console.log(`Contract deployed to: ${waveContract.address}`);
+    console.log(`Contract deployed by: ${owner.address}`);
 
-    console.log("Contract Deployed, YAY!!! ", waveContract.address);
+    // waves
+    let waveCount = await waveContract.getTotalWaves();
+
+    let waveTxn = await waveContract.wave();
+    await waveTxn.wait();
+
+    waveCount = await waveContract.getTotalWaves();
 }
 
 // because it's returning a promise

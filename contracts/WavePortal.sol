@@ -5,13 +5,18 @@ import "hardhat/console.sol";
 contract WavePortal {
     // automatically initialized with 0
     uint totalWaves;
-
     constructor() {
-        console.log("Naruto Uzumaki, what's up mate?");
+        console.log("Naruto Uzumaki is a legend.");
     }
 
     function wave() public {
         totalWaves += 1;
-        console.log("Someone just waved, woah! Total Waves = %s", totalWaves);
+        console.log("%s is waved!", msg.sender);
+    }
+    // msg.sender is the wallet address of person who called the function
+
+    function getTotalWaves() view public returns (uint) {
+        console.log("You had total %d waves", totalWaves);
+        return totalWaves;
     }
 }
