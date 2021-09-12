@@ -1,22 +1,22 @@
 async function main() {
-    const [owner, randomPerson] = await hre.ethers.getSigners();
     const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
-    const waveContract = await waveContractFactory.deploy();
-
-    // waiting for a transaction to be mined, hardhat imitated it
+    const waveContract = await waveContractFactory.deploy({value: hre.ethers.utils.parseEther("0.1")});
     await waveContract.deployed();
+    console.log("Contract address: ", waveContract.address);
 
-    // adresses of deployer and owner
-    console.log(`Contract deployed to: ${waveContract.address}`);
-    console.log(`Contract deployed by: ${owner.address}`);
+    // getting contract balance
+    let contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
+    console.log("Contract Balance: ", hre.ethers.utils.formatEther(contractBalance));
 
-    // waves
-    let waveCount = await waveContract.getTotalWaves();
-
-    let waveTxn = await waveContract.wave();
+    // waving
+    let waveTxn = await waveContract.wave("A message!");
     await waveTxn.wait();
 
-    waveCount = await waveContract.getTotalWaves();
+    contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
+    console.log("Contract Balance: ", hre.ethers.utils.formatEther(contractBalance));
+    
+    // fetching all waves array
+    let allWaves = await waveContract.getAllWaves();
 }
 
 // because it's returning a promise

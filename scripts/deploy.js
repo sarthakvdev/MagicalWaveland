@@ -1,17 +1,10 @@
+const { hexStripZeros } = require("@ethersproject/bytes");
+
 async function main() {
-    // deployer from getSigners()
-    const deployer = await hre.ethers.getSigner();
-    console.log("Address of our deployer is: ", deployer.address);
-
-    // getBalance => toString
-   console.log("Account balance: ", (await deployer.getBalance()).toString());
-
-    // import Token
-    const Token = await hre.ethers.getContractFactory("WavePortal");
-    // deploy it and return to token
-    const token = await Token.deploy();
-
-    console.log(`WavePortal address: `, token.address);
+    const waveContractFactory = await ethers.getContractFactory("WavePortal");
+    const waveContract = await waveContractFactory.deploy({value: hre.ethers.utils.parseEther("0.1")});
+    await waveContract.deployed();
+    console.log("Contract adddress: ", waveContract.address);
 }
 
 // because it's returning a promise
