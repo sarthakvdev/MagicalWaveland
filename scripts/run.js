@@ -9,14 +9,11 @@ async function main() {
     console.log("Contract Balance: ", hre.ethers.utils.formatEther(contractBalance));
 
     // waving
-    let waveTxn = await waveContract.wave("A message!");
+    let waveTxn = await waveContract.wave("Just waving #1!");
     await waveTxn.wait();
 
     contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
     console.log("Contract Balance: ", hre.ethers.utils.formatEther(contractBalance));
-    
-    // fetching all waves array
-    let allWaves = await waveContract.getAllWaves();
 }
 
 // because it's returning a promise
