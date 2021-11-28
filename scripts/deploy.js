@@ -1,5 +1,3 @@
-const { hexStripZeros } = require("@ethersproject/bytes");
-
 async function main() {
     const waveContractFactory = await ethers.getContractFactory("WavePortal");
     const waveContract = await waveContractFactory.deploy({value: hre.ethers.utils.parseEther("0.1")});
